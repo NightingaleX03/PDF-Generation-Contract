@@ -13,13 +13,17 @@ app.get('/', (req, res) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tenant Information Form</title>
+        <title>Rental Information Form</title>
     </head>
     <body>
-        <h1>Tenant Information</h1>
+        <h1>Rental Information Form</h1>
         <form action="/" method="post">
+
+            <h3>LandLord Information</h3>
             <label for="landlord_name">Landlord's Legal Name:</label>
             <input type="text" id="landlord_name" name="landlord_name"><br>
+            
+            <h3>Rental Unit Information</h3>
             <label for="retail_unit">Retail Unit:</label>
             <input type="text" id="retail_unit" name="retail_unit"><br>
             <label for="street_number">Street Number:</label>
