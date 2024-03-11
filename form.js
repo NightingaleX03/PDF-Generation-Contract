@@ -97,6 +97,7 @@ app.get('/', (req, res) => {
         </form>
 
         <script>
+
         document.getElementById('add_rentee').addEventListener('click', function() {
           const renteeDiv = document.createElement('div');
           renteeDiv.classList.add('rentee');
@@ -119,6 +120,18 @@ app.get('/', (req, res) => {
               event.target.parentNode.remove();
           }
       });
+
+      function getRenteeNames() {
+        const renteeFirstNames = [];
+        const renteeLastNames = [];
+        const renteeInputs = document.querySelectorAll('.rentee');
+        renteeInputs.forEach(rentee => {
+            const firstName = rentee.querySelector('.first_name').value;
+            const lastName = rentee.querySelector('.last_name').value;
+            renteeFirstNames.push(firstName);
+            renteeLastNames.push(lastName);
+        });
+    }
 
         emailAgreementCheckbox.addEventListener('change', function() {
             if (this.checked) {
