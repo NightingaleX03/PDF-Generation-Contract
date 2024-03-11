@@ -24,10 +24,18 @@ app.get('/', (req, res) => {
             <input type="text" id="landlord_name" name="landlord_name"><br>
             
             <h3>Rentee Information</h3>
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name"><br>
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name"><br>
+            <div id="rentees">
+            <!-- Initial rentee fields -->
+            <div class="rentee">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="first_name" name="first_name[]">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="last_name" name="last_name[]">
+                <button type="button" class="remove_rentee">Remove Rentee</button>
+            </div>
+            </div>
+        
+            <button type="button" id="add_rentee">Add Rentee</button>
             
             <h3>Rental Unit Information</h3>
             <label for="retail_unit">Retail Unit:</label>
@@ -89,8 +97,28 @@ app.get('/', (req, res) => {
         </form>
 
         <script>
+        document.getElementById('add_rentee').addEventListener('click', function() {
+          const renteeDiv = document.createElement('div');
+          renteeDiv.classList.add('rentee');
+
+          renteeDiv.innerHTML = 
+            '<label for="first_name">First Name:</label>' +
+            '<input type="text" class="first_name" name="first_name[]">' +
+            '<label for="last_name">Last Name:</label>' +
+            '<input type="text" class="last_name" name="last_name[]">' +
+            '<button type="button" class="remove_rentee">Remove Rentee</button>';
+          document.getElementById('rentees').appendChild(renteeDiv);
+      });
+       
+
         const emailAgreementCheckbox = document.getElementById('email_agreement');
         const emailAddressContainer = document.getElementById('email_address_container');
+
+        document.addEventListener('click', function(event) {
+          if (event.target.classList.contains('remove_rentee')) {
+              event.target.parentNode.remove();
+          }
+      });
 
         emailAgreementCheckbox.addEventListener('change', function() {
             if (this.checked) {
