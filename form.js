@@ -1,4 +1,5 @@
 const express = require('express');
+const pdf = require('html-pdf');
 const app = express();
 const port = 3000;
 
@@ -14,16 +15,30 @@ app.get('/', (req, res) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rental Information Form</title>
+
+        <style>
+        .header-section {
+            background-color: lightgrey;
+        }
+        </style>
+
     </head>
     <body>
         <h1>Rental Information Form</h1>
         <form action="/" method="post">
 
+            <h2>Parties to the Agreement</h2>
+            <div class="header-section">
             <h3>LandLord Information</h3>
+            </div>
+
             <label for="landlord_name">Landlord's Legal Name:</label>
             <input type="text" id="landlord_name" name="landlord_name"><br>
-            
+          
+            <div class="header-section">
             <h3>Rentee Information</h3>
+            </div>
+
             <div id="rentees">
             <!-- Initial rentee fields -->
             <div class="rentee">
@@ -37,7 +52,10 @@ app.get('/', (req, res) => {
         
             <button type="button" id="add_rentee">Add Rentee</button>
             
+            <div class="header-section">
             <h3>Rental Unit Information</h3>
+            </div>
+
             <label for="retail_unit">Retail Unit:</label>
             <input type="text" id="retail_unit" name="retail_unit"><br>
             <label for="street_number">Street Number:</label>
@@ -51,7 +69,10 @@ app.get('/', (req, res) => {
             <label for="postal_code">Postal Code:</label>
             <input type="text" id="postal_code" name="postal_code"><br>
 
+            <div class="header-section">
             <h3>Tenant Contact Information</h3>
+            </div>
+
             <label for="tenant_retail_unit">Retail Unit:</label>
             <input type="text" id="tenant_retail_unit" name="tenant_retail_unit"><br>
             <label for="tenant_street_number">Street Number:</label>
@@ -67,34 +88,92 @@ app.get('/', (req, res) => {
             <label for="tenant_postal_code">Postal Code:</label>
             <input type="text" id="tenant_postal_code" name="tenant_postal_code"><br>
             
-        <h3>Contact Notices</h3>
-        <p>Both the landlord and tenant agree to receive notices and documents by email, where allowed by the Landlord and Tenant Board’s Rules of Procedure.</p>
-        <label for="email_agreement">Agreement:</label>
-        <input type="checkbox" id="email_agreement" name="email_agreement" value="yes">
-        <label for="email_agreement">Yes</label>
-        <input type="checkbox" id="no_email_agreement" name="email_agreement" value="no">
-        <label for="email_agreement">No</label>
-        
-        <div id="email_address_container" style="display: none;">
-            <label for="email_address">Email Address:</label>
-            <input type="text" id="email_address" name="email_address">
-        </div>
+            <div class="header-section">
+            <h3>Contact Notices</h3>
+            </div>
 
-        <p>The landlord is providing phone and/or email contact information for emergencies or day-to-day communications:</p>
-        <label for="phone_agreement">Agreement:</label>
-        <input type="checkbox" id="phone_agreement" name="phone_agreement" value="yes">
-        <label for="phone_agreement">Yes</label>
-        <input type="checkbox" id="no_phone_agreement" name="phone_agreement" value="no">
-        <label for="phone_agreement">No</label>
-        
-        <div id="phone_container" style="display: none;">
-            <label for="tenant_phone_number">Phone Number:</label>
-            <input type="text" id="tenant_phone_number" name="tenant_phone_number">
-        </div>
-        
-        <button type="submit">Submit</button>
+            <p>Both the landlord and tenant agree to receive notices and documents by email, where allowed by the Landlord and Tenant Board’s Rules of Procedure.</p>
+            <label for="email_agreement">Agreement:</label>
+            <input type="checkbox" id="email_agreement" name="email_agreement" value="yes">
+            <label for="email_agreement">Yes</label>
+            <input type="checkbox" id="no_email_agreement" name="email_agreement" value="no">
+            <label for="email_agreement">No</label>
+            
+            <div id="email_address_container" style="display: none;">
+                <label for="email_address">Email Address:</label>
+                <input type="text" id="email_address" name="email_address">
+            </div>
 
-        </form>
+            <p>The landlord is providing phone and/or email contact information for emergencies or day-to-day communications:</p>
+            <label for="phone_agreement">Agreement:</label>
+            <input type="checkbox" id="phone_agreement" name="phone_agreement" value="yes">
+            <label for="phone_agreement">Yes</label>
+            <input type="checkbox" id="no_phone_agreement" name="phone_agreement" value="no">
+            <label for="phone_agreement">No</label>
+            
+            <div id="phone_container" style="display: none;">
+                <label for="tenant_phone_number">Phone Number:</label>
+                <input type="text" id="tenant_phone_number" name="tenant_phone_number">
+            </div>
+        
+            <div class="header-section">
+            <h3>Tenancy Occupancy Timings</h3>
+            </div>
+            
+            <label for="tenancy_start_date">This tenancy starts on:</label>
+            <input type="date" id="tenancy_start_date" name="tenancy_start_date">
+
+            <p>This tenancy agreement is for: (select an option below and fill in details as needed)</p>
+
+            <label for="tenancy_end_date">a fixed length of time ending on:</label>
+            <input type="date" id="tenancy_end_date" name="tenancy_end_date">
+
+            <div class="header-section">
+            <h3>Terms and Conditions</h3>
+            </div>
+
+            <label for="terms_and_conditions">Please read and agree to the terms and conditions:</label><br>
+            <textarea id="terms_and_conditions" name="terms_and_conditions" rows="5" cols="50"></textarea><br>
+            
+            <div class="header-section">
+            <h3>Services and Utilities</h3>
+            </div>
+
+            <p>The following services are included in the lawful rent for the rental unit, as specified:</p>
+            
+            <label for="gas">Gas:</label>
+            <input type="radio" id="gas_yes" name="gas" value="Yes">
+            <label for="gas_yes">Yes</label>
+            <input type="radio" id="gas_no" name="gas" value="No">
+            <label for="gas_no">No</label><br>
+
+            <label for="air_conditioning">Air conditioning:</label>
+            <input type="radio" id="ac_yes" name="air_conditioning" value="Yes">
+            <label for="ac_yes">Yes</label>
+            <input type="radio" id="ac_no" name="air_conditioning" value="No">
+            <label for="ac_no">No</label><br>
+
+            <label for="additional_storage">Additional storage space:</label>
+            <input type="radio" id="storage_yes" name="additional_storage" value="Yes">
+            <label for="storage_yes">Yes</label>
+            <input type="radio" id="storage_no" name="additional_storage" value="No">
+            <label for="storage_no">No</label><br>
+
+            <label for="on_site_laundry">On-Site Laundry:</label>
+            <input type="radio" id="laundry_yes" name="on_site_laundry" value="Yes">
+            <label for="laundry_yes">Yes</label>
+            <input type="radio" id="laundry_no" name="on_site_laundry" value="No">
+            <label for="laundry_no">No</label><br>
+
+            <label for="guest_parking">Guest Parking:</label>
+            <input type="radio" id="parking_yes" name="guest_parking" value="Yes">
+            <label for="parking_yes">Yes</label>
+            <input type="radio" id="parking_no" name="guest_parking" value="No">
+            <label for="parking_no">No</label><br>
+
+            <button type="submit">Submit</button>
+
+          </form>
 
         <script>
 
@@ -160,6 +239,7 @@ app.get('/', (req, res) => {
 
 // Route to handle form submission
 app.post('/', (req, res) => {
+
   const landlordName = req.body.landlord_name;
   const retailUnit = req.body.retail_unit;
   const streetNumber = req.body.street_number;
@@ -168,29 +248,124 @@ app.post('/', (req, res) => {
   const province = req.body.province;
   const postalCode = req.body.postal_code;
 
-  const renteeFirstName = req.body.first_name;
-  const RenteeLastName = req.body.last_name;
+  const renteeFirstNames = Array.isArray(req.body.first_name) ? req.body.first_name : [req.body.first_name];
+  const renteeLastNames = Array.isArray(req.body.last_name) ? req.body.last_name : [req.body.last_name];
 
-  const tenant_landlordName = req.body.tenant_landlord_name;
-  const tenant_retailUnit = req.body.tenant_retail_unit;
-  const tenant_streetNumber = req.body.tenant_street_number;
-  const tenant_streetName = req.body.tenant_street_name;
-  const tenant_POBox = req.body.tenant_POBox;
-  const tenant_cityTown = req.body.tenant_city_town;
-  const tenant_province = req.body.tenant_province;
-  const tenant_postalCode = req.body.tenant_postal_code;
+  const tenantRetailUnit = req.body.tenant_retail_unit;
+  const tenantStreetNumber = req.body.tenant_street_number;
+  const tenantStreetName = req.body.tenant_street_name;
+  const tenantPOBox = req.body.tenant_POBox;
+  const tenantCityTown = req.body.tenant_city_town;
+  const tenantProvince = req.body.tenant_province;
+  const tenantPostalCode = req.body.tenant_postal_code;
 
-  res.send(`
+  const emailAgreement = req.body.email_agreement;
+  const emailAddress = req.body.email_address;
+
+  const phoneAgreement = req.body.phone_agreement;
+  const tenantPhoneNumber = req.body.tenant_phone_number;
+
+  const tenancyStartDate = req.body.tenancy_start_date;
+  const tenancyEndDate = req.body.tenancy_end_date;
+
+  const termsAndConditions = req.body.terms_and_conditions;
+
+  const gas = req.body.gas;
+  const airConditioning = req.body.air_conditioning;
+  const additionalStorage = req.body.additional_storage;
+  const onSiteLaundry = req.body.on_site_laundry;
+  const guestParking = req.body.guest_parking;
+
+  const htmlContent = `
+    <!-- Your HTML content here -->
     <h2>Tenant Information Received</h2>
+    
+    <div class="header-section">
+    <h3>Landlord Information:</h3>
+    </div>
+
     <p>Landlord's Legal Name: ${landlordName}</p>
+    
+    <div class="header-section">
+    <h3>Rental Unit Information:</h3>
+    </div>
+
     <p>Retail Unit: ${retailUnit}</p>
     <p>Street Number: ${streetNumber}</p>
     <p>Street Name: ${streetName}</p>
     <p>City/Town: ${cityTown}</p>
     <p>Province: ${province}</p>
     <p>Postal Code: ${postalCode}</p>
-  `);
+    
+    <div class="header-section">
+    <h3>Rentee Information:</h3>
+    </div>
+
+    ${renteeFirstNames.map((firstName, index) => `
+      <p>Rentee ${index + 1}:</p>
+      <p>First Name: ${firstName}</p>
+      <p>Last Name: ${renteeLastNames[index]}</p>
+    `).join('')}
+    
+    <div class="header-section">
+    <h3>Tenant Contact Information:</h3>
+    </div>
+
+    <p>Retail Unit: ${tenantRetailUnit}</p>
+    <p>Street Number: ${tenantStreetNumber}</p>
+    <p>Street Name: ${tenantStreetName}</p>
+    <p>PO Box: ${tenantPOBox}</p>
+    <p>City/Town: ${tenantCityTown}</p>
+    <p>Province: ${tenantProvince}</p>
+    <p>Postal Code: ${tenantPostalCode}</p>
+    
+    <div class="header-section">
+    <h3>Contact Notices:</h3>
+    </div>
+
+    <p>Email Agreement: ${emailAgreement}</p>
+    <p>Email Address: ${emailAddress}</p>
+    <p>Phone Agreement: ${phoneAgreement}</p>
+    <p>Phone Number: ${tenantPhoneNumber}</p>
+    
+    <div class="header-section">
+    <h3>Tenancy Occupancy Timings:</h3>
+    </div>
+
+    <p>This tenancy starts on: ${tenancyStartDate}</p>
+    <p>a fixed length of time ending on:</p>
+    <p>This tenancy starts on: ${tenancyEndDate}</p>
+
+    <div class="header-section">
+    <h3>Services and Utilities</h3>
+    </div>
+
+    <p>The following services are included in the lawful rent for the rental unit, as specified:</p>
+    
+    <p>Gas: ${gas}</p>
+    <p>Air Conditioning: ${airConditioning}</p>
+    <p>Additional Storage Space: ${additionalStorage}</p>
+    <p>On-Site Laundry: ${onSiteLaundry}</p>
+    <p>Guest Parking: ${guestParking}</p>
+
+    <div class="header-section">
+    <h2>Terms and Conditions Received</h2>
+    </div>
+
+    <p>${termsAndConditions}</p>
+
+  `;
+
+  pdf.create(htmlContent).toBuffer((err, buffer) => {
+    if (err) {
+      res.status(500).send('Error generating PDF');
+    } else {
+      // Send the PDF as a response
+      res.contentType('application/pdf').send(buffer);
+    }
+  });
 });
+
 
 // Start the server
 app.listen(port, () => {
