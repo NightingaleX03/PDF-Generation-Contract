@@ -129,13 +129,6 @@ app.get('/', (req, res) => {
             <input type="date" id="tenancy_end_date" name="tenancy_end_date">
 
             <div class="header-section">
-            <h3>Terms and Conditions</h3>
-            </div>
-
-            <label for="terms_and_conditions">Please read and agree to the terms and conditions:</label><br>
-            <textarea id="terms_and_conditions" name="terms_and_conditions" rows="5" cols="50"></textarea><br>
-            
-            <div class="header-section">
             <h3>Services and Utilities</h3>
             </div>
 
@@ -171,6 +164,37 @@ app.get('/', (req, res) => {
             <input type="radio" id="parking_no" name="guest_parking" value="No">
             <label for="parking_no">No</label><br>
 
+
+            <div class="header-section">
+            <h3>Responsibility of Utilities</h3>
+            </div>
+
+            <p>The following utilities are the responsibility of: </p>
+            <label for="electricity_responsibility">Electricity:</label>
+            <input type="radio" id="electricity_landlord" name="electricity_responsibility" value="Landlord">
+            <label for="electricity_landlord">Landlord</label>
+            <input type="radio" id="electricity_tenant" name="electricity_responsibility" value="Tenant">
+            <label for="electricity_tenant">Tenant</label><br>
+
+            <label for="heat_responsibility">Heat:</label>
+            <input type="radio" id="heat_landlord" name="heat_responsibility" value="Landlord">
+            <label for="heat_landlord">Landlord</label>
+            <input type="radio" id="heat_tenant" name="heat_responsibility" value="Tenant">
+            <label for="heat_tenant">Tenant</label><br>
+
+            <label for="water_responsibility">Water:</label>
+            <input type="radio" id="heat_landlord" name="water_responsibility" value="Landlord">
+            <label for="water_landlord">Landlord</label>
+            <input type="radio" id="heat_tenant" name="water_responsibility" value="Tenant">
+            <label for="water_tenant">Tenant</label><br>
+
+            <div class="header-section">
+            <h3>Terms and Conditions</h3>
+            </div>
+
+            <label for="terms_and_conditions">Please read and agree to the terms and conditions:</label><br>
+            <textarea id="terms_and_conditions" name="terms_and_conditions" rows="5" cols="50"></textarea><br>
+            
             <button type="submit">Submit</button>
 
           </form>
@@ -276,6 +300,10 @@ app.post('/', (req, res) => {
   const onSiteLaundry = req.body.on_site_laundry;
   const guestParking = req.body.guest_parking;
 
+  const electricity = req.body.electricity_responsibility;
+  const heat = req.body.heat_responsibility;
+  const water = req.body.water_responsibility;
+
   const htmlContent = `
     <!-- Your HTML content here -->
     <h2>Tenant Information Received</h2>
@@ -341,12 +369,20 @@ app.post('/', (req, res) => {
     </div>
 
     <p>The following services are included in the lawful rent for the rental unit, as specified:</p>
-    
     <p>Gas: ${gas}</p>
     <p>Air Conditioning: ${airConditioning}</p>
     <p>Additional Storage Space: ${additionalStorage}</p>
     <p>On-Site Laundry: ${onSiteLaundry}</p>
     <p>Guest Parking: ${guestParking}</p>
+
+    <div class="header-section">
+    <h3>Responsibility of Utilities</h3>
+    </div>
+
+    <p>The following utilities are the responsibility of: </p>
+    <p>Electricity: ${electricity}</p>
+    <p>Heat: ${heat}</p>
+    <p>Water: ${water}</p>
 
     <div class="header-section">
     <h2>Terms and Conditions Received</h2>
