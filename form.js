@@ -317,7 +317,7 @@ app.post('/', (req, res) => {
 
     .box{
       margin-left:50px;
-      padding:1px;
+      padding: 1px;
       border: 1px solid black;
       width: 1000px;
     }
@@ -372,7 +372,7 @@ app.post('/', (req, res) => {
     <h3>A. Rental Unit Information:</h3>
     </div>
 
-    <p>PREMISES LEASED: The landlord, in consideration of the rent to be paid, and covenants and agreements to be to be performed by the Tenant, does hereby lease the following described premises located at ${retailUnit}, ${streetNumber} ${streetName}, ${cityTown} ${province}, ${postalCode} (hereinafter referred to as the "Premises"). The Premises shall include the following personal property owned by the Landlord: ${landlordName}</p>
+    <p>PREMISES LEASED: The landlord, in consideration of the rent to be paid, and covenants and agreements to be to be performed by the Tenant, does hereby lease the following described premises located at <u>${retailUnit}</u>, <u>${streetNumber} ${streetName}</u>, <u>${cityTown} ${province}</u>, <u>${postalCode}</u> (hereinafter referred to as the "Premises"). The Premises shall include the following personal property owned by the Landlord: <u>${landlordName}</u></p>
     
 
     <div class="header-section">
@@ -395,8 +395,25 @@ app.post('/', (req, res) => {
       </tr>
     </table>
 
+    <p>Both the landlord and tenant agree to receive notices and documents by email, where allowed by the Landlord and Tenant Board’s Rules of Procedure.</p>
+    <p><strong>Email Agreement: </strong>
+    <span id="emailAgreementYes">${emailAgreement === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+    <span id="emailAgreementNo">${emailAgreement === 'no' ? 'No [x]' : 'No [ ]'}</span>
+    </p>
+
+    ${emailAgreement === 'yes' ? `<p>Email Address: ${emailAddress}</p>` : ''}
+
+    <p>The rentee is providing phone and/or email contact information for emergencies or day-to-day communications:</p>
+    <p><strong>Phone Agreement: </strong>
+        <span id="phoneAgreementYes">${phoneAgreement === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+        <span id="phoneAgreementNo">${phoneAgreement === 'no' ? 'No [x]' : 'No [ ]'}</span>
+    </p>
+
+    ${phoneAgreement === 'yes' ? `<p>Phone Number: ${tenantPhoneNumber}</p>` : ''}
+
+
     <div class="header-section">
-    <h3>C. Landloard Contact Information:</h3>
+    <h3>C. Landlord Contact Information:</h3>
     </div>
 
     <p>Address for Giving Notices or Documents to the Landlord</p>
@@ -414,18 +431,9 @@ app.post('/', (req, res) => {
           <td><strong>Postal Code:</strong>L4E 1S4</td>
       </tr>
     </table>
-
-    <div class="header-section">
-    <h3>Contact Notices:</h3>
-    </div>
-
-    <p>Email Agreement: ${emailAgreement}</p>
-    <p>Email Address: ${emailAddress}</p>
-    <p>Phone Agreement: ${phoneAgreement}</p>
-    <p>Phone Number: ${tenantPhoneNumber}</p>
     
     <div class="header-section">
-    <h3>Tenancy Occupancy Timings:</h3>
+    <h3>D. Tenancy Occupancy Timings:</h3>
     </div>
 
     <p>This tenancy starts on: ${tenancyStartDate}</p>
