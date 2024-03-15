@@ -305,15 +305,59 @@ app.post('/', (req, res) => {
   const water = req.body.water_responsibility;
 
   const htmlContent = `
-    <!-- Your HTML content here -->
-    <h2>Tenant Information Received</h2>
+
+  <style>
+    body{
+      padding:50px;
+    }
+
+    .header-section {
+        background-color: lightgrey;
+    }
+
+    .box{
+      margin-left:50px;
+      padding:1px;
+      border: 1px solid black;
+      width: 1000px;
+    }
+    .gap {
+      margin-right: 450px;
+    }
+
+    p{
+      font-size: 1.17em;
+    }
+  </style>
+  
+    <h1>Residential Tenancy Agreement</h1>
     
-    <div class="header-section">
+    <h3>This Residential Lease Agreement (“Agreement”) made on <span id="datePlaceholder"></span> is between:</h3>
+
+    <p>In the event there is more than one Tenant, each reference to "Tenant" shall apply to each of them, jointly and severally. Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement. Each Landlord and Tenant may be referred to individually as a "Party" and collectively as the "Parties."
+      <script>
+        const today = new Date();
+        const formattedDate = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
+        document.getElementById('datePlaceholder').textContent = formattedDate;
+      </script>
+
+    <p>
+
     <h3>Landlord Information:</h3>
+    <div class="box">
+      <p><strong>Landlord's Legal Name: </strong> ${landlordName}</p>
     </div>
 
-    <p>Landlord's Legal Name: ${landlordName}</p>
     
+    <h3>Rentee Information:</h3>
+    ${renteeFirstNames.map((firstName, index) => `
+    ${renteeFirstNames.length > 1 ? `<p><strong>Rentee ${index + 1}:</strong></p>` : ''}
+      <div class="box">
+        <p><strong>First Name: </strong> ${firstName} <span class="gap"></span> <strong>Last Name: </strong> ${renteeLastNames[index]}</p>
+      </div>
+    `).join('')}
+    
+
     <div class="header-section">
     <h3>Rental Unit Information:</h3>
     </div>
@@ -324,16 +368,6 @@ app.post('/', (req, res) => {
     <p>City/Town: ${cityTown}</p>
     <p>Province: ${province}</p>
     <p>Postal Code: ${postalCode}</p>
-    
-    <div class="header-section">
-    <h3>Rentee Information:</h3>
-    </div>
-
-    ${renteeFirstNames.map((firstName, index) => `
-      <p>Rentee ${index + 1}:</p>
-      <p>First Name: ${firstName}</p>
-      <p>Last Name: ${renteeLastNames[index]}</p>
-    `).join('')}
     
     <div class="header-section">
     <h3>Tenant Contact Information:</h3>
