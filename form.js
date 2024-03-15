@@ -328,59 +328,93 @@ app.post('/', (req, res) => {
     p{
       font-size: 1.17em;
     }
+
+    table{
+      border-collapse: collapse;
+      width:100%;
+    }
+    td{
+      font-size: 1.17em;
+      padding: 1px;
+      text-align: left;
+    }
+
+    
   </style>
   
     <h1>Residential Tenancy Agreement</h1>
     
     <h3>This Residential Lease Agreement (“Agreement”) made on <span id="datePlaceholder"></span> is between:</h3>
-
-    <p>In the event there is more than one Tenant, each reference to "Tenant" shall apply to each of them, jointly and severally. Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement. Each Landlord and Tenant may be referred to individually as a "Party" and collectively as the "Parties."
+    
       <script>
         const today = new Date();
         const formattedDate = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
         document.getElementById('datePlaceholder').textContent = formattedDate;
       </script>
 
-    <p>
-
     <h3>Landlord Information:</h3>
     <div class="box">
       <p><strong>Landlord's Legal Name: </strong> ${landlordName}</p>
     </div>
-
     
     <h3>Rentee Information:</h3>
+
+    <p>In the event there is more than one Tenant, each reference to "Tenant" shall apply to each of them, jointly and severally. Each Tenant is jointly and severally liable to Landlord for payment of rent and performance in accordance with all other terms of this Agreement. Each Landlord and Tenant may be referred to individually as a "Party" and collectively as the "Parties."
+    
     ${renteeFirstNames.map((firstName, index) => `
     ${renteeFirstNames.length > 1 ? `<p><strong>Rentee ${index + 1}:</strong></p>` : ''}
       <div class="box">
         <p><strong>First Name: </strong> ${firstName} <span class="gap"></span> <strong>Last Name: </strong> ${renteeLastNames[index]}</p>
       </div>
     `).join('')}
+     
+    <div class="header-section">
+    <h3>A. Rental Unit Information:</h3>
+    </div>
+
+    <p>PREMISES LEASED: The landlord, in consideration of the rent to be paid, and covenants and agreements to be to be performed by the Tenant, does hereby lease the following described premises located at ${retailUnit}, ${streetNumber} ${streetName}, ${cityTown} ${province}, ${postalCode} (hereinafter referred to as the "Premises"). The Premises shall include the following personal property owned by the Landlord: ${landlordName}</p>
     
 
     <div class="header-section">
-    <h3>Rental Unit Information:</h3>
+    <h3>B. Tenant Contact Information:</h3>
     </div>
 
-    <p>Retail Unit: ${retailUnit}</p>
-    <p>Street Number: ${streetNumber}</p>
-    <p>Street Name: ${streetName}</p>
-    <p>City/Town: ${cityTown}</p>
-    <p>Province: ${province}</p>
-    <p>Postal Code: ${postalCode}</p>
+    <p>Address for Giving Notices or Documents to the Tenant</p>
     
+    <table>
+      <tr>
+          <td><strong>Retail Unit:</strong> ${tenantRetailUnit}</td>
+          <td><strong>Street Number:</strong>${tenantStreetNumber}</td>
+          <td colspan="2"><strong>Street Name:</strong>${tenantStreetName}</td>
+      </tr>
+      <tr>
+          <td><strong>PO Box:</strong>${tenantPOBox}</td>
+          <td><strong>City/Town:</strong>${tenantCityTown}</td>
+          <td><strong>Province:</strong>${tenantProvince}</td>
+          <td><strong>Postal Code:</strong>${tenantPostalCode}</td>
+      </tr>
+    </table>
+
     <div class="header-section">
-    <h3>Tenant Contact Information:</h3>
+    <h3>C. Landloard Contact Information:</h3>
     </div>
 
-    <p>Retail Unit: ${tenantRetailUnit}</p>
-    <p>Street Number: ${tenantStreetNumber}</p>
-    <p>Street Name: ${tenantStreetName}</p>
-    <p>PO Box: ${tenantPOBox}</p>
-    <p>City/Town: ${tenantCityTown}</p>
-    <p>Province: ${tenantProvince}</p>
-    <p>Postal Code: ${tenantPostalCode}</p>
+    <p>Address for Giving Notices or Documents to the Landlord</p>
     
+    <table>
+      <tr>
+          <td><strong>Retail Unit:</strong> 123 </td>
+          <td><strong>Street Number:</strong> 43</td>
+          <td colspan="2"><strong>Street Name:</strong> Royal Crown Street</td>
+      </tr>
+      <tr>
+          <td><strong>PO Box:</strong> 123456 </td>
+          <td><strong>City/Town:</strong> North York</td>
+          <td><strong>Province:</strong> Ontario</td>
+          <td><strong>Postal Code:</strong>L4E 1S4</td>
+      </tr>
+    </table>
+
     <div class="header-section">
     <h3>Contact Notices:</h3>
     </div>
