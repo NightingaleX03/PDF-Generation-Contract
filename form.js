@@ -3,10 +3,8 @@ const pdf = require('html-pdf');
 const app = express();
 const port = 3000;
 
-// Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
 
-// Route to serve HTML form
 app.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -25,6 +23,7 @@ app.get('/', (req, res) => {
     </head>
     <body>
         <h1>Rental Information Form</h1>
+
         <form action="/" method="post">
 
             <h2>Parties to the Agreement</h2>
@@ -195,6 +194,15 @@ app.get('/', (req, res) => {
             <label for="terms_and_conditions">Please read and agree to the terms and conditions:</label><br>
             <textarea id="terms_and_conditions" name="terms_and_conditions" rows="5" cols="50"></textarea><br>
             
+            <div class="header-section">
+            <h3>Payment and Details</h3>
+            </div>
+
+            <label for="retail_unit">Rental Fees (per month):</label>
+            <input type="number" id="rental_fees" name="rental_fees"><br>
+            <label for="retail_unit">Payment Method of Choice:</label>
+            <input type="text" id="rental_fees_methods" name="rental_fees_methods"><br>
+
             <button type="submit">Submit</button>
 
           </form>
@@ -261,7 +269,7 @@ app.get('/', (req, res) => {
   `);
 });
 
-// Route to handle form submission
+
 app.post('/', (req, res) => {
 
   const landlordName = req.body.landlord_name;
@@ -304,15 +312,26 @@ app.post('/', (req, res) => {
   const heat = req.body.heat_responsibility;
   const water = req.body.water_responsibility;
 
+  const fees = req.body.rental_fees;
+  const feePayment = req.body.rental_fees_methods;
+
   const htmlContent = `
 
   <style>
+
+  @page {
+    margin-top:50px;
+  }
     body{
       padding:50px;
     }
 
     .header-section {
         background-color: lightgrey;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
 
     .box{
@@ -334,6 +353,12 @@ app.post('/', (req, res) => {
       width:100%;
     }
     td{
+      font-size: 1.17em;
+      padding: 1px;
+      text-align: left;
+    }
+
+    td p{
       font-size: 1.17em;
       padding: 1px;
       text-align: left;
@@ -367,6 +392,8 @@ app.post('/', (req, res) => {
         <p><strong>First Name: </strong> ${firstName} <span class="gap"></span> <strong>Last Name: </strong> ${renteeLastNames[index]}</p>
       </div>
     `).join('')}
+
+    <br>
      
     <div class="header-section">
     <h3>A. Rental Unit Information:</h3>
@@ -436,35 +463,202 @@ app.post('/', (req, res) => {
     <h3>D. Tenancy Occupancy Timings:</h3>
     </div>
 
-    <p>This tenancy starts on: ${tenancyStartDate}</p>
-    <p>a fixed length of time ending on:</p>
-    <p>This tenancy starts on: ${tenancyEndDate}</p>
+    <p> The Tenant agrees to occupy said Premises for an original term commencing on <u>${tenancyStartDate}</u> and ending on the last day of <u>${tenancyEndDate}</u>. The Lease shall automatically renew on a month to month basis unless notice is given see sections 1 and 2.</p>
 
     <div class="header-section">
-    <h3>Services and Utilities</h3>
+    <h3>E. Costs and Payment</h3>
+    </div>
+
+    <p>The monthly rent to be paid by the Renter to the Landlord is <u>${fees}</u>. It is to be paid by the Renter before the first day of every month, such that the first rent payment is due on ${tenancyStartDate}.</p>
+    <p>The method of payment preferred by both parties is <u>${feePayment}</u>.</p>
+    <p>In the even of late payments made by the Renter, the Landlord is entitled to impose a $100 fine as late fees.</p>
+    <p>Prior to taking occupancy of the premises, the Renter will pay the Landlord an amount of <u>${fees}</u> (first months rent payment) as a security deposit to cover the cost of any damages suffered by the premises and cleaning. Such security deposit will be returned to the Renter upon the end of this Agreement, provided the premises are left in the same condition as prior to the occupancy.</p>
+
+    <div class="header-section">
+    <h3>E. Services and Utilities</h3>
     </div>
 
     <p>The following services are included in the lawful rent for the rental unit, as specified:</p>
-    <p>Gas: ${gas}</p>
-    <p>Air Conditioning: ${airConditioning}</p>
-    <p>Additional Storage Space: ${additionalStorage}</p>
-    <p>On-Site Laundry: ${onSiteLaundry}</p>
-    <p>Guest Parking: ${guestParking}</p>
+    
+    <table>
+      <tr>
+        <td>Gas: ${gas}</td>
+
+        <td>
+              <span id="GasYes">${gas === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="GasNo">${gas === 'no' ? 'No [x]' : 'No [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Air Conditioning:</td>
+
+        <td>
+              <span id="AirConditioningYes">${airConditioning === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="AirConditioningNo">${airConditioning === 'no' ? 'No [x]' : 'No [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Additional Storage Space:</td>
+
+        <td>
+              <span id="StorageYes">${additionalStorage === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="StorageNo">${additionalStorage === 'no' ? 'No [x]' : 'No [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>On-Site Laundry:</td>
+
+        <td>
+              <span id="LaundryYes">${onSiteLaundry === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="LaundryNo">${onSiteLaundry === 'no' ? 'No [x]' : 'No [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Guest parking:</td>
+
+        <td>
+              <span id="GuestParkingYes">${guestParking === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="GuestParkingNo">${guestParking === 'no' ? 'No [x]' : 'No [ ]'}</span>
+        </td>
+      </tr>
+    </table>
+
+    <p>If any of the above specified are not included tenant will have to find their own means to obtain the following services and utilities. </p>
 
     <div class="header-section">
-    <h3>Responsibility of Utilities</h3>
+    <h3>F: Responsibility of Utilities</h3>
     </div>
 
     <p>The following utilities are the responsibility of: </p>
-    <p>Electricity: ${electricity}</p>
-    <p>Heat: ${heat}</p>
-    <p>Water: ${water}</p>
+
+    <table>
+      <tr>
+        <td>Electricity: </td>
+
+        <td>
+        <span id="ElectricityYes">${electricity === 'Landlord' ? 'Landlord [x]' : 'Landlord [ ]'}</span> 
+        <span id="ElectricityNo">${electricity === 'Tenant' ? 'Tenant [x]' : 'Tenant [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Heat: </td>
+        
+        <td>
+        <span id="HeatYes">${heat === 'Landlord' ? 'Landlord [x]' : 'Landlord [ ]'}</span> 
+        <span id="HeatNo">${heat === 'Tenant' ? 'Tenant [x]' : 'Tenant [ ]'}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Hydro: </td>
+        
+        <td>
+        <span id="ElectricityYes">${water === 'Landlord' ? 'Landlord [x]' : 'Landlord [ ]'}</span> 
+        <span id="ElectricityNo">${water === 'Tenant' ? 'Tenant [x]' : 'Tenant [ ]'}</span>
+        </td>
+      </tr>
+    </table>
+
+    <p>If the tenant is responsible for any utilities, provide details of the arrangement, e.g. tenant sets up account with and pays the utility provider, tenant pays a portion of the utility costs, etc</p>
 
     <div class="header-section">
     <h2>Terms and Conditions Received</h2>
     </div>
 
-    <p>${termsAndConditions}</p>
+    <p>${termsAndConditions ? termsAndConditions : 'The tenant has no further terms and conditions to add to the Residential Tenancy Agreement'}</p>
+
+    <h1>Residential Tenancy Agreement Index</h1>
+
+    <div class="header-section">
+    <h2>1. Renewing a Tenancy Agreement</h2>
+    </div>
+
+    <p>If the landlord and tenant agree that the tenancy will last for a specific period of time, this is called a fixed term tenancy. This is because both the start and end date are set out in the tenancy agreement.</p>
+    <p>The end of an agreement does not mean the tenant has to move out or sign a renewal or new agreement in order to stay. The rules of the agreement will still apply and the tenant still has the right to stay:</p>
+    <ul>
+      <li>as a monthly tenant, if the agreement was for a fixed term or monthly tenancy,</li>
+      <li>as a weekly tenant, if the agreement was for a weekly tenancy, or </li>
+      <li>as a daily tenant, if the agreement was for a daily tenancy. </li>
+    </ul>
+
+    <p>The landlord and tenant can also agree to renew the agreement for another fixed term or enter into a new agreement. In any case, changes to the rent must follow the rules under the Act (see Part I below for further information). </p>
+
+    <div class="header-section">
+    <h2>1. Ending the Tenancy</h2>
+    </div>
+
+    <p>The landlord or tenant must follow the rules of the Act when ending a tenancy. </p>
+    <p><strong>When the tenant can end the tenancy</strong></p>
+    <p>The tenant can end a tenancy by giving the landlord proper notice using the appropriate Landlord and Tenant Board form. They must give:</p>
+
+    <ul>
+      <li>at least 60 days’ notice if they have a monthly or fixed term tenancy, or</li>
+      <li>at least 28 days’ notice if they have a daily or weekly tenancy.</li>
+    </ul>
+
+    <p>For a fixed term tenancy, the notice cannot be effective before the last day of the fixed term. For a monthly or weekly tenancy, the notice must be effective on the last day of a rental period (e.g. month or week). In certain situations, a tenant who has experienced sexual or domestic violence can give 28 days’ notice to end the tenancy at any time, even if the tenant has a fixed term agreement (e.g., one year agreement). They must use the notice form approved by the Landlord and Tenant Board.</p>
+
+    <div class="header-section">
+    <h2>3. Tenant's Insurance</h2>
+    </div>
+
+    <p> The tenant must have liability insurance at all times. If the landlord asks for proof of coverage, the tenant must provide it. It is up to the tenant to get contents insurance if they want it.</p>
+
+    <div class="header-section">
+    <h2>4. Maintenance and Repairs</h2>
+    </div>
+
+    <p> The landlord must keep the rental unit and property in good repair and comply with all health, safety and maintenance standards.
+      The tenant must repair or pay for any undue damage to the rental unit or property caused by the wilful or negligent conduct of the tenant, the tenant’s guest or another person who lives in the rental unit. 
+      The tenant is responsible for ordinary cleanliness of the rental unit, except for any cleaning the landlord agreed to do. </p>
+
+    <div class="header-section">
+    <h2>4. Assignment and Subletting</h2>
+    </div>
+
+    <p>The tenant may assign or sublet the rental unit to another person only with the consent of the landlord. The landlord cannot arbitrarily or unreasonably withhold consent to a sublet or potential assignee.</p>
+
+    <div class="header-section">
+    <h2>4. Signatures</h2>
+    </div>
+
+    <p>By signing this agreement, the landlord(s) and the tenant(s) agree to follow its terms. The landlord(s) or tenant(s) can sign this lease electronically if they both agree.</p>
+    <p>Unless otherwise agreed in the additional terms under Section 15, if there is more than one tenant, each tenant is responsible for all tenant obligations under this agreement, including the full amount of rent. </p>
+
+    <p><strong>Landlord:</strong></p>
+    <table>
+      <tr>
+        <td><strong>Name:</strong></td>
+        <td><strong>Signature:</strong></td>
+      </tr>
+
+      <tr>
+        <td>${landlordName}</td>
+        <td><input type="text" id="landlordName" name="landlordName"></td>
+      </tr>
+    </table>
+
+    <p><strong>Tenant(s):</strong></p>
+    <table>
+    <tr>
+      <td><strong>Name:</strong></td>
+      <td><strong>Signature:</strong></td>
+    </tr>
+
+      ${renteeFirstNames.map((firstName, index) => `
+        <tr style="margin-bottom: 5px;">
+          <td>${firstName} ${renteeLastNames[index]}</td>
+          <td><input type="text" id="Name" name="Name"></td>
+        </tr>
+      `).join('')}
+    </table>
+
+    <p><strong>Lease Agreement End</strong><p>
 
   `;
 
