@@ -15,6 +15,12 @@ app.get('/', (req, res) => {
         <title>Rental Information Form</title>
 
         <style>
+
+        body{
+          padding:50px;
+          padding-top: 5px;
+        }
+
         .header-section {
             background-color: lightgrey;
         }
@@ -48,44 +54,86 @@ app.get('/', (req, res) => {
                 <button type="button" class="remove_rentee">Remove Rentee</button>
             </div>
             </div>
-        
+
+            <br>
             <button type="button" id="add_rentee">Add Rentee</button>
             
             <div class="header-section">
             <h3>Rental Unit Information</h3>
             </div>
 
-            <label for="retail_unit">Retail Unit:</label>
-            <input type="text" id="retail_unit" name="retail_unit"><br>
-            <label for="street_number">Street Number:</label>
-            <input type="text" id="street_number" name="street_number"><br>
-            <label for="street_name">Street Name:</label>
-            <input type="text" id="street_name" name="street_name"><br>
-            <label for="city_town">City/Town:</label>
-            <input type="text" id="city_town" name="city_town"><br>
-            <label for="province">Province:</label>
-            <input type="text" id="province" name="province"><br>
-            <label for="postal_code">Postal Code:</label>
-            <input type="text" id="postal_code" name="postal_code"><br>
+            <table>
+              <tr>
+                <td><label for="retail_unit">Retail Unit:</label></td>
+                <td><input type="text" id="retail_unit" name="retail_unit"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="street_number">Street Number:</label></td>
+                <td><input type="text" id="street_number" name="street_number"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="street_name">Street Name:</label></td> 
+                <td><input type="text" id="street_name" name="street_name"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="city_town">City/Town:</label></td>
+                <td><input type="text" id="city_town" name="city_town"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="province">Province:</label></td>
+                <td><input type="text" id="province" name="province"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="postal_code">Postal Code:</label></td>
+                <td><input type="text" id="postal_code" name="postal_code"><br></td>
+              </tr>
+            </table>
 
             <div class="header-section">
             <h3>Tenant Contact Information</h3>
             </div>
 
-            <label for="tenant_retail_unit">Retail Unit:</label>
-            <input type="text" id="tenant_retail_unit" name="tenant_retail_unit"><br>
-            <label for="tenant_street_number">Street Number:</label>
-            <input type="text" id="tenant_street_number" name="tenant_street_number"><br>
-            <label for="tenant_street_name">Street Name:</label>
-            <input type="text" id="tenant_street_name" name="tenant_street_name"><br>
-            <label for="tenant_PO_box">PO Box:</label>
-            <input type="text" id="tenant_PO_box" name="tenant_PO_box"><br>
-            <label for="tenant_city_town">City/Town:</label>
-            <input type="text" id="tenant_city_town" name="tenant_city_town"><br>
-            <label for="tenant_province">Province:</label>
-            <input type="text" id="tenant_province" name="tenant_province"><br>
-            <label for="tenant_postal_code">Postal Code:</label>
-            <input type="text" id="tenant_postal_code" name="tenant_postal_code"><br>
+            <table>
+              <tr>
+                <td><label for="tenant_retail_unit">Retail Unit:</label></td>
+                <td><input type="text" id="tenant_retail_unit" name="tenant_retail_unit"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_street_number">Street Number:</label></td>
+                <td><input type="text" id="tenant_street_number" name="tenant_street_number"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_street_name">Street Name:</label></td> 
+                <td> <input type="text" id="tenant_street_name" name="tenant_street_name"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_PO_box">PO Box:</label></td>
+                <td><input type="text" id="tenant_PO_box" name="tenant_PO_box"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_city_town">City/Town:</label></td>
+                <td><input type="text" id="tenant_city_town" name="tenant_city_town"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_province">Province:</label></td>
+                <td><input type="text" id="tenant_province" name="tenant_province"><br></td>
+              </tr>
+
+              <tr>
+                <td><label for="tenant_postal_code">Postal Code:</label></td>
+                <td><input type="text" id="tenant_postal_code" name="tenant_postal_code"><br></td>
+              </tr>
+            </table>
             
             <div class="header-section">
             <h3>Contact Notices</h3>
@@ -203,6 +251,7 @@ app.get('/', (req, res) => {
             <label for="retail_unit">Payment Method of Choice:</label>
             <input type="text" id="rental_fees_methods" name="rental_fees_methods"><br>
 
+            <br>
             <button type="submit">Submit</button>
 
           </form>
@@ -214,10 +263,12 @@ app.get('/', (req, res) => {
           renteeDiv.classList.add('rentee');
 
           renteeDiv.innerHTML = 
-            '<label for="first_name">First Name:</label>' +
+            '<br>' +
+            '<label for="first_name">First Name: </label>' +
             '<input type="text" class="first_name" name="first_name[]">' +
-            '<label for="last_name">Last Name:</label>' +
+            '<label for="last_name"> Last Name: </label>' +
             '<input type="text" class="last_name" name="last_name[]">' +
+            '&nbsp;' +
             '<button type="button" class="remove_rentee">Remove Rentee</button>';
           document.getElementById('rentees').appendChild(renteeDiv);
       });
@@ -316,7 +367,6 @@ app.post('/', (req, res) => {
   const feePayment = req.body.rental_fees_methods;
 
   const htmlContent = `
-
   <style>
 
   @page {
@@ -662,21 +712,19 @@ app.post('/', (req, res) => {
     </table>
 
     <p><strong>Lease Agreement End</strong><p>
+`;
 
-  `;
-
-  pdf.create(htmlContent).toBuffer((err, buffer) => {
-    if (err) {
-      res.status(500).send('Error generating PDF');
-    } else {
-      // Send the PDF as a response
-      res.contentType('application/pdf').send(buffer);
-    }
+pdf.create(htmlContent).toBuffer((err, buffer) => {
+  if (err) {
+    res.status(500).send('Error generating PDF');
+  } else {
+    // Send the PDF as a response
+    res.contentType('application/pdf').send(buffer);
+  }
   });
 });
 
-
-// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
