@@ -363,6 +363,9 @@ app.post('/', (req, res) => {
       padding: 1px;
       text-align: left;
     }
+    li{
+      font-size:1.17em;
+    }
 
     
   </style>
