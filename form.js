@@ -7,7 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send(`
-    <!DOCTYPE html>
+  <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
             </div>
 
             <div id="rentees">
-            <!-- Initial rentee fields -->
+            
             <div class="rentee">
                 <label for="first_name">First Name:</label>
                 <input type="text" class="first_name" name="first_name[]">
@@ -266,7 +266,7 @@ app.get('/', (req, res) => {
         </script>
     </body>
     </html>
-  `);
+    `)
 });
 
 
@@ -482,11 +482,11 @@ app.post('/', (req, res) => {
     
     <table>
       <tr>
-        <td>Gas: ${gas}</td>
+        <td>Gas:</td>
 
         <td>
-              <span id="GasYes">${gas === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
-              <span id="GasNo">${gas === 'no' ? 'No [x]' : 'No [ ]'}</span>
+              <span id="GasYes">${gas === 'Yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="GasNo">${gas === 'No' ? 'No [x]' : 'No [ ]'}</span>
         </td>
       </tr>
 
@@ -494,8 +494,8 @@ app.post('/', (req, res) => {
         <td>Air Conditioning:</td>
 
         <td>
-              <span id="AirConditioningYes">${airConditioning === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
-              <span id="AirConditioningNo">${airConditioning === 'no' ? 'No [x]' : 'No [ ]'}</span>
+              <span id="AirConditioningYes">${airConditioning === 'Yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="AirConditioningNo">${airConditioning === 'No' ? 'No [x]' : 'No [ ]'}</span>
         </td>
       </tr>
 
@@ -503,8 +503,8 @@ app.post('/', (req, res) => {
         <td>Additional Storage Space:</td>
 
         <td>
-              <span id="StorageYes">${additionalStorage === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
-              <span id="StorageNo">${additionalStorage === 'no' ? 'No [x]' : 'No [ ]'}</span>
+              <span id="StorageYes">${additionalStorage === 'Yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="StorageNo">${additionalStorage === 'No' ? 'No [x]' : 'No [ ]'}</span>
         </td>
       </tr>
 
@@ -512,8 +512,8 @@ app.post('/', (req, res) => {
         <td>On-Site Laundry:</td>
 
         <td>
-              <span id="LaundryYes">${onSiteLaundry === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
-              <span id="LaundryNo">${onSiteLaundry === 'no' ? 'No [x]' : 'No [ ]'}</span>
+              <span id="LaundryYes">${onSiteLaundry === 'Yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="LaundryNo">${onSiteLaundry === 'No' ? 'No [x]' : 'No [ ]'}</span>
         </td>
       </tr>
 
@@ -521,8 +521,8 @@ app.post('/', (req, res) => {
         <td>Guest parking:</td>
 
         <td>
-              <span id="GuestParkingYes">${guestParking === 'yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
-              <span id="GuestParkingNo">${guestParking === 'no' ? 'No [x]' : 'No [ ]'}</span>
+              <span id="GuestParkingYes">${guestParking === 'Yes' ? 'Yes [x]' : 'Yes [ ]'}</span> 
+              <span id="GuestParkingNo">${guestParking === 'No' ? 'No [x]' : 'No [ ]'}</span>
         </td>
       </tr>
     </table>
