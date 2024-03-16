@@ -19,16 +19,27 @@ app.get('/', (req, res) => {
         body{
           padding:50px;
           padding-top: 5px;
+          background-color:#dedbf4;
         }
 
         .header-section {
-            background-color: lightgrey;
+            background-image: linear-gradient(to right, black,#646CFF);
+            color: white;
+        }
+
+        .submit {
+          background-image: linear-gradient(to right, black,#646CFF);
+          color: white;
+          font-size: 16px;
         }
         </style>
 
     </head>
     <body>
-        <h1>Rental Information Form</h1>
+
+        <div class = "title">
+          <h1>Rental Information Form</h1>
+        </div>
 
         <form action="/" method="post">
 
@@ -252,7 +263,7 @@ app.get('/', (req, res) => {
             <input type="text" id="rental_fees_methods" name="rental_fees_methods"><br>
 
             <br>
-            <button type="submit">Submit</button>
+            <button class="submit" type="submit" >Submit</button>
 
           </form>
 
@@ -642,7 +653,7 @@ app.post('/', (req, res) => {
     <p>The landlord and tenant can also agree to renew the agreement for another fixed term or enter into a new agreement. In any case, changes to the rent must follow the rules under the Act (see Part I below for further information). </p>
 
     <div class="header-section">
-    <h2>1. Ending the Tenancy</h2>
+    <h2>2. Ending the Tenancy</h2>
     </div>
 
     <p>The landlord or tenant must follow the rules of the Act when ending a tenancy. </p>
@@ -671,13 +682,13 @@ app.post('/', (req, res) => {
       The tenant is responsible for ordinary cleanliness of the rental unit, except for any cleaning the landlord agreed to do. </p>
 
     <div class="header-section">
-    <h2>4. Assignment and Subletting</h2>
+    <h2>5. Assignment and Subletting</h2>
     </div>
 
     <p>The tenant may assign or sublet the rental unit to another person only with the consent of the landlord. The landlord cannot arbitrarily or unreasonably withhold consent to a sublet or potential assignee.</p>
 
     <div class="header-section">
-    <h2>4. Signatures</h2>
+    <h2>Signatures</h2>
     </div>
 
     <p>By signing this agreement, the landlord(s) and the tenant(s) agree to follow its terms. The landlord(s) or tenant(s) can sign this lease electronically if they both agree.</p>
